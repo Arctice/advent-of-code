@@ -143,3 +143,9 @@ part2_magical = do
   let options = [(a,b) | a<-[0..99], b<-[0..99]]
   let search = filter (\(a,b) -> (eval_polynomial partial_answer (a,b)) == goal) options
   return search
+
+main = do
+  a <- part1
+  print a
+  b <- part2_magical
+  print b
