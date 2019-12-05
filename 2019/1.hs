@@ -3,7 +3,7 @@
 
 input :: IO [Int]
 input = do
-  str <- readFile "aoc1.input"
+  str <- readFile "1.input"
   let ls = map read . lines $ str
   return ls
 
