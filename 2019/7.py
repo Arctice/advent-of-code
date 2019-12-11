@@ -1,119 +1,19 @@
 from dataclasses import dataclass
 from itertools import permutations
-
-
-@dataclass
-class intcode:
-    tape: list
-    pos: int
-    input: list
-    output: list
-
-
-def decode_op(instruction):
-    op = instruction % 100
-    instruction //= 100
-    modes = [0] * 3
-    argument_index = 0
-    while instruction > 0:
-        mode = instruction % 10
-        modes[argument_index] = mode
-        instruction //= 10
-        argument_index += 1
-    return op, modes
-
-
-def tape_read(tape, source, mode):
-    source = tape[source]
-    if mode == 0:
-        source = tape[source]
-    return source
-
-
-def op_arithmetic(op):
-    def interpret(state, modes):
-        A = tape_read(state.tape, state.pos + 1, modes[0])
-        B = tape_read(state.tape, state.pos + 2, modes[1])
-        dest = state.tape[state.pos + 3]
-        val = op(A, B)
-        state.tape[dest] = val
-        state.pos += 4
-        return state
-
-    return interpret
-
-
-def op_read(state, modes):
-    value = state.input.pop(0)
-    dest = state.tape[state.pos + 1]
-    state.tape[dest] = value
-    state.pos += 2
-    return state
-
-
-def op_write(state, modes):
-    value = tape_read(state.tape, state.pos + 1, modes[0])
-    state.output.append(value)
-    state.pos += 2
-    return state
-
-
-def op_jnz(state, modes):
-    pred = tape_read(state.tape, state.pos + 1, modes[0])
-    if pred != 0:
-        dest = tape_read(state.tape, state.pos + 2, modes[1])
-        state.pos = dest
-    else:
-        state.pos += 3
-    return state
-
-
-def op_jz(state, modes):
-    pred = tape_read(state.tape, state.pos + 1, modes[0])
-    if pred == 0:
-        dest = tape_read(state.tape, state.pos + 2, modes[1])
-        state.pos = dest
-    else:
-        state.pos += 3
-    return state
-
-
-def op_halt(state, modes):
-    state.pos = None
-    return state
-
-
-instructions = {
-    1: op_arithmetic(lambda a, b: a + b),
-    2: op_arithmetic(lambda a, b: a * b),
-    3: op_read,
-    4: op_write,
-    5: op_jnz,
-    6: op_jz,
-    7: op_arithmetic(lambda a, b: 1 if a < b else 0),
-    8: op_arithmetic(lambda a, b: 1 if a == b else 0),
-    99: op_halt,
-}
+import intcode
 
 
 def advance(state):
     while state.pos is not None and not state.output:
-        op, modes = decode_op(state.tape[state.pos])
-        state = instructions[op](state, modes)
-    return state
-
-
-def run(tape, input):
-    state = intcode(tape.copy(), 0, input, [])
-    while state.pos is not None:
-        state = advance(state)
+        op, modes = intcode.decode_op(state.tape[state.pos])
+        state = intcode.instructions[op](state, modes)
     return state
 
 
 def amplifiers(tape):
     amps = []
     for n in range(5):
-        state = intcode(tape.copy(), 0, [], [])
+        state = intcode.intcode(tape.copy(), 0, [], [])
         amps.append(state)
     return amps
 
@@ -174,6 +74,7 @@ def part2():
         amp = amp_sequence(tape, phases)
         results.append((amp, phases))
     return max(results)
+
 
 print(part1())
 print(part2())
