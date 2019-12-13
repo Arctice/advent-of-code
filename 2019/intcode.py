@@ -119,6 +119,8 @@ instructions = {
 def advance(state):
     while state.pos is not None and not state.output:
         op, modes = decode_op(state.tape[state.pos])
+        if op == 3 and not state.input:
+            return state
         state = instructions[op](state, modes)
     return state
 
