@@ -1,3 +1,5 @@
+#!/bin/python3
+
 xs = [int(x) for x in open('1.input').read().splitlines()]
 ys = [False] * 2020
 
@@ -13,4 +15,4 @@ for x in xs:
         z = 2020 - x - y
         if z < 0 or not ys[z]:
             continue
-        print(x, y, z, x*y*z)
+        print(x, y, z, x * y * z)
