@@ -1,3 +1,4 @@
+#!/usr/bin/env -S scheme --libdirs "../scheme/" --script
 (import (scheme))
 
 (define xs

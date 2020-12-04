@@ -7,7 +7,7 @@
    foldl1
    max-key sum
    interpose
-   string-join string-strip string-split
+   string-join string-strip string-split string-replace
    to-string
    list-slice
    zip
@@ -15,6 +15,7 @@
    id
    -> λ compose partial
    memoized
+   slurp
    )
   (import (scheme))
 
@@ -62,32 +63,54 @@
      ([sep strs] (apply string-append (interpose sep strs)))))
 
   (define (string-strip ss)
-    (define (strip-tail ss len first last i)
-      (cond
-       [(>= i len) (substring ss first last)]
-       [(char-whitespace? (string-ref ss i)) (strip-tail ss len first last (inc i))]
-       [else (strip-tail ss len first (inc i) (inc i))]))
-    (define (strip-head ss len first)
-      (cond
-       [(>= first len) ""]
-       [(char-whitespace? (string-ref ss first)) (strip-head ss len (inc first))]
-       [else (strip-tail ss len first first first)]))
-    (strip-head ss (string-length ss) 0))
+    (let* ([len (string-length ss)]
+           [first (let loop ([i 0])
+                    (cond [(= i len) i]
+                          [(char-whitespace? (string-ref ss i))
+                           (loop (inc i))]
+                          [else i]))]
+           [last (let loop ([i len])
+                   (cond [(= i first) i]
+                         [(char-whitespace? (string-ref ss (- i 1)))
+                          (loop (dec i))]
+                         [else i]))])
+      (substring ss first last)))
 
   (define (string-split ss separator)
-    (let ([sep-len (string-length separator)])
-      (let loop ([word ""] [ss ss])
-        (cond [(< (string-length ss) sep-len)
-               (list (string-append word ss))]
-              [(string=? separator (substring ss 0 sep-len))
-               (cons word (loop "" (substring ss sep-len (string-length ss))))]
-              [else (loop (string-append word (substring ss 0 1))
-                          (substring ss 1 (string-length ss)))]))))
+    (letrec* ([ss-len (string-length ss)]
+              [sep-len (string-length separator)]
+              [last-possible-match (fx- ss-len sep-len)]
+              [try-match
+               (λ first -> (let for ([i 0])
+                             (if (char=? (string-ref ss (fx+ first i))
+                                         (string-ref separator i))
+                                 (let ([i (inc i)])
+                                   (if (fx= i sep-len) #t (for i)))
+                                 #f)))]
+              [find-match
+               (λ index -> (cond [(fx> index last-possible-match) #f]
+                                 [(try-match index) index]
+                                 [else (find-match (inc index))]))]
+              [next-split
+               (λ start -> (let ([match (find-match start)])
+                             (if match (cons (substring ss start match)
+                                             (next-split (fx+ match sep-len)))
+                                 (list (substring ss start ss-len)))))]
+              )
+      (if (fx= sep-len 0) (error 'string-split "empty separator"))
+      (next-split 0)))
+
+  (define (string-replace ss old new)
+    (string-join new (string-split ss old)))
 
   (define (to-string obj)
     (let ([out (open-output-string)])
       (display obj out)
       (get-output-string out)))
+
+  (define (slurp path)
+    (with-input-from-file path
+      (λ -> (get-string-all (current-input-port)))))
 
   (define (list-slice list start end)
     (let* ([len (length list)]
