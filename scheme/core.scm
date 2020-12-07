@@ -9,13 +9,13 @@
    interpose
    string-join string-strip string-split string-replace
    to-string
+   slurp readlines
    list-slice
    zip
    make-dict dict-set! dict-lookup dict-update!
    id
    -> λ compose partial
    memoized
-   slurp
    )
   (import (scheme))
 
@@ -111,6 +111,12 @@
   (define (slurp path)
     (with-input-from-file path
       (λ -> (get-string-all (current-input-port)))))
+
+  (define (readlines path)
+    (call-with-input-file path
+      (λ in -> (let loop () (if (port-eof? in) '()
+                                (cons (get-line in) (loop)))))))
+
 
   (define (list-slice list start end)
     (let* ([len (length list)]

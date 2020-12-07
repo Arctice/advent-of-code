@@ -1,13 +1,7 @@
 #!/usr/bin/env -S scheme --libdirs "../scheme/" --script
-(import (scheme))
+(import (scheme) (core))
 
-(define xs
-  (map string->number
-       (let ([in (open-input-file "1.input")])
-         (let loop ()
-           (let ([line (get-line in)])
-             (if (eof-object? line) '()
-                 (cons line (loop))))))))
+(define xs  (map string->number (readlines "1.input")))
 (define ys (make-bytevector 2020 0))
 (for-each (lambda (x) (bytevector-u8-set! ys x 1)) xs)
 

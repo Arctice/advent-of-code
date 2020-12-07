@@ -1,12 +1,7 @@
 #!/usr/bin/env -S scheme --libdirs "../scheme/" --script
 (import (scheme) (core))
 
-(define lines
-  (let ([in (open-input-file "5.input")])
-    (let loop ([ss (get-line in)])
-      (if (eof-object? ss) '()
-          (cons ss (loop (get-line in)))))))
-
+(define lines (readlines "5.input"))
 
 (define (find-row instructions)
   (let next ([i 0] [lo 0] [hi 128])
