@@ -8,8 +8,6 @@
 (set! adapters (sort < (append adapters (list 0 (+ 3 (apply max adapters))))))
 
 
-(define (count p l) (fold-left (λ Σ v -> (if (p v) (inc Σ) Σ)) 0 l))
-
 (define (part-1 xs)
   (let* ([xs (cons 0 (append xs (list (+ 3 (apply max xs)))))]
          [pairs (zip (tail xs) (list-head xs (dec (length xs))))]

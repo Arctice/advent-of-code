@@ -5,7 +5,7 @@
    head tail pair
    inc dec
    foldl1
-   max-key sum
+   max-key sum count
    interpose
    string-join string-strip string-split string-replace
    to-string
@@ -48,6 +48,8 @@
           (max-key* first first-key key (tail vals)))))
 
   (define (sum seq) (fold-left + 0 seq))
+
+  (define (count p l) (fold-left (λ Σ v -> (if (p v) (inc Σ) Σ)) 0 l))
 
 
   (define (interpose sep l)
