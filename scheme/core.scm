@@ -12,8 +12,7 @@
    slurp readlines
    list-slice
    zip
-   make-dict dict-set! dict-lookup dict-update!
-   id
+   id repeat
    -> λ compose partial
    memoized
    )
@@ -27,8 +26,6 @@
 
   (define inc add1)
   (define dec sub1)
-
-  (define (id v) v)
 
   (define (foldl1 fn seq) (fold-left fn (head seq) (tail seq)))
 
@@ -138,6 +135,12 @@
      ([dict key default] (hashtable-ref dict key default))))
   (define dict-update! hashtable-update!)
 
+
+  (define (id v) v)
+
+  (define (repeat f x n)
+    (do ([i 0 (inc i)] [v x (f v)])
+        ((= i n) v)))
 
   (define-syntax -> (syntax-rules ()))
   (define-syntax λ
