@@ -14,7 +14,6 @@
    zip
    id repeat
    -> λ compose partial
-   memoized
    )
   (import (scheme))
 
@@ -158,13 +157,4 @@
     (syntax-rules ()
       ([_ f a1 a2 ...] (lambda args (apply f a1 a2 ... args)))))
 
-  (define (memoized fn)
-    (let ([cache (make-dict)])
-      (lambda args
-        (let ([prev (dict-lookup cache args)])
-          (or prev
-              (let ([result (apply fn args)])
-                (dict-set! cache args result)
-                result))))))
-  
   )
