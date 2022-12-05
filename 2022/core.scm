@@ -3,7 +3,7 @@
 (library (core)
   (export
    λ
-   string-split
+   string-split string-strip
    slurp readlines)
   (import (scheme))
 
@@ -39,5 +39,19 @@
                                 (list (substring ss start ss-len)))))])
       (if (fx= sep-len 0) (error 'string-split "empty separator"))
       (next-split 0)))
+
+  (define (string-strip ss)
+    (let* ([len (string-length ss)]
+           [first (let loop ([i 0])
+                    (cond [(= i len) i]
+                          [(char-whitespace? (string-ref ss i))
+                           (loop (+ i 1))]
+                          [else i]))]
+           [last (let loop ([i len])
+                   (cond [(= i first) i]
+                         [(char-whitespace? (string-ref ss (- i 1)))
+                          (loop (- i 1))]
+                         [else i]))])
+      (substring ss first last)))
 
   )
