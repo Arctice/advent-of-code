@@ -24,14 +24,12 @@
                         r (next (+ r 1))))])
             (next (+ d 1) (div (+ sum (* rotate n)) 10)))))))
 
-(define solution
-  (time
-   (find
-    (λ (n) (if (or (even? n) (zero? (mod n 5))) #f
-               (< 1000000 (A n))))
-    (map (λ (n) (+ n 1000000))
-         (iota 1000)))))
+(define (problem-129)
+  (find
+   (λ (n) (if (or (even? n) (zero? (mod n 5))) #f
+              (< 1000000 (A n))))
+   (map (λ (n) (+ n 1000000))
+        (iota 1000))))
 
 
-(define answer '82cd979a2b79600137aea54fa0bd944b)
-(verify solution answer)
+(define answer-129 '82cd979a2b79600137aea54fa0bd944b)

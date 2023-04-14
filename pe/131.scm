@@ -19,20 +19,22 @@
 ;; unproven: all such p are probably the differences between consecutive cubes
 
 (define solution 0)
-(call/1cc
- (λ (break)
-   (for-each
-    (λ (a)
-      (let* ([b (+ a 1)]
-             [n (* a a a)]
-             [np (* b b b)]
-             [d (- np n)])
-        (when (prime? d)
-          (printf "p ~s ∛n ~s\n" d a)
-          (if (< d 1000000)
-              (set! solution (+ 1 solution))
-              (break)))))
-    (cdr (iota 10000)))))
 
-(define answer 'f7e6c85504ce6e82442c770f7c8606f0)
-(verify solution answer)
+(define (problem-131)
+  (call/1cc
+   (λ (break)
+     (for-each
+      (λ (a)
+        (let* ([b (+ a 1)]
+               [n (* a a a)]
+               [np (* b b b)]
+               [d (- np n)])
+          (when (prime? d)
+            ;; (printf "p ~s ∛n ~s\n" d a)
+            (if (< d 1000000)
+                (set! solution (+ 1 solution))
+                (break)))))
+      (cdr (iota 10000)))))
+  solution)
+
+(define answer-131 'f7e6c85504ce6e82442c770f7c8606f0)

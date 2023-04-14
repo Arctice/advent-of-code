@@ -14,10 +14,9 @@
 (define (anagram? a b)
   (equal? (sort < (digits a)) (sort < (digits b))))
 
-(define solution
+(define (problem-52)
   (find
    (λ (n) (for-all (λ (m) (anagram? n (* n m))) '(2 3 4 5 6)))
    (list-tail (iota 1000000) 2)))
 
-(define answer 'a420384997c8a1a93d5a84046117c2aa)
-(verify solution answer)
+(define answer-52 'a420384997c8a1a93d5a84046117c2aa)

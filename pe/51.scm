@@ -96,9 +96,8 @@
 
 
 
-
-(define solution
-  (let* ([primes (time (sieve 1000000))]
+(define (problem-51)
+  (let* ([primes (sieve 1000000)]
          [trie
           (fold-left (λ (trie prime) (trie-add! trie (digits prime)))
                      '() primes)])
@@ -108,12 +107,11 @@
          (let* ([family (similar-prime-family trie n)]
                 [size (length family)])
            (when (< best size)
-             (printf "~s ~s ~s\n" size n family)
+             ;; (printf "~s ~s ~s\n" size n family)
              (set! result n))
            (max best size)))
        0 primes)
       result)))
 
 
-(define answer 'e2a8daa5eb919905dadd795593084c22)
-(verify solution answer)
+(define answer-51 'e2a8daa5eb919905dadd795593084c22)

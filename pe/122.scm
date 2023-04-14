@@ -37,15 +37,13 @@
            (for-all (λ (n) (hashtable-ref chain-length n #f))
                     (cdr (iota (+ 1 max))))))))
 
-(define solution
+(define (problem-122)
   (let ([max-n 200])
-    (time
-     (exists (λ (max-depth) (dfs '(1) possible-chains
-                                 (found-all? max-n) max-depth))
-             (iota 20)))
+    (exists (λ (max-depth) (dfs '(1) possible-chains
+                                (found-all? max-n) max-depth))
+            (iota 20))
 
     (fold-left + 0 (map (λ (n) (hashtable-ref chain-length n #f))
                         (cdr (iota (+ 1 max-n)))))))
 
-(define answer 'b710915795b9e9c02cf10d6d2bdb688c)
-(verify solution answer)
+(define answer-122 'b710915795b9e9c02cf10d6d2bdb688c)

@@ -44,9 +44,8 @@
   (apply append (cdr (iota 10))
          (map generate-palindromes (cddr (iota 9)))))
 
-(define matching (time (filter sum-of-squares? palindromes)))
+(define matching (filter sum-of-squares? palindromes))
 
-(define solution (fold-left + 0 matching))
+(define (problem-125) (fold-left + 0 matching))
 
-(define answer '1b5635e8ab723e01570ca783129493dd)
-(verify solution answer)
+(define answer-125 '1b5635e8ab723e01570ca783129493dd)

@@ -29,7 +29,7 @@
                         r (next (+ r 1))))])
             (next (+ d 1) (div (+ sum (* rotate n)) 10)))))))
 
-(define solution
+(define (problem-130)
   (let scan ([n 1] [count 0])
     (cond
      [(= count 25) 0]
@@ -40,5 +40,4 @@
      [else (scan (+ n 1) count)])))
 
 
-(define answer '20594ea0ef7a2f4cf40d19a9b82a0beb)
-(verify solution answer)
+(define answer-130 '20594ea0ef7a2f4cf40d19a9b82a0beb)

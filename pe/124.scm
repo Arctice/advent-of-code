@@ -32,6 +32,5 @@
         (map (λ (n) (cons* n (radical n)))
              (iota 100001))))
 
-(define solution (car (list-ref rad-sequence 10000)))
-(define answer 'f228d2e6f9099153388e9470180c8302)
-(verify solution answer)
+(define (problem-124) (car (list-ref rad-sequence 10000)))
+(define answer-124 'f228d2e6f9099153388e9470180c8302)

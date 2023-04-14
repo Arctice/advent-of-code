@@ -46,7 +46,6 @@
       (when (< c max) (search (+ c 1))))
     s))
 
-(define solution (time (scan 120000)))
+(define (problem-127) (scan 120000))
 
-(define answer 'c6b1ae935b33c90a2c320b5f6ef3e4ba)
-(verify solution answer)
+(define answer-127 'c6b1ae935b33c90a2c320b5f6ef3e4ba)

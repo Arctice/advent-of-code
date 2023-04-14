@@ -14,19 +14,14 @@
 (define (repunit-mod k m)
   (mod (/ (- (expt-mod 10 k m) 1) 9) m))
 
-
-(define solution
+(define (problem-132)
   (let ([k 1000000000])
-    (time
-     (let scan ([d 7] [factors '()])
-       (cond
-        [(= (length factors) 40)
-         (fold-left + 0 factors)]
-        [(not (prime? d)) (scan (+ 2 d) factors)]
-        [(not (zero? (repunit-mod k d))) (scan (+ 2 d) factors)]
-        [else (scan (+ 2 d) (cons d factors))])))))
+    (let scan ([d 7] [factors '()])
+      (cond
+       [(= (length factors) 40)
+        (fold-left + 0 factors)]
+       [(not (prime? d)) (scan (+ 2 d) factors)]
+       [(not (zero? (repunit-mod k d))) (scan (+ 2 d) factors)]
+       [else (scan (+ 2 d) (cons d factors))]))))
 
-
-
-(define answer '5df3a36faa173a393a04a022b2d5d49d)
-(verify solution answer)
+(define answer-132 '5df3a36faa173a393a04a022b2d5d49d)

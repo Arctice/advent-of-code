@@ -26,12 +26,10 @@
                                    (+ 1 b)))
          (fact a))))
 
-(define solution
-  (time
-   (fold-left
-    + 0 (map (λ (n) (length (filter (λ (r) (< 1000000 (binom n r))) (iota n))))
-             (iota 101)))))
+(define (problem-53)
+  (fold-left
+   + 0 (map (λ (n) (length (filter (λ (r) (< 1000000 (binom n r))) (iota n))))
+            (iota 101))))
 
 
-(define answer 'e3b21256183cf7c2c7a66be163579d37)
-(verify solution answer)
+(define answer-53 'e3b21256183cf7c2c7a66be163579d37)

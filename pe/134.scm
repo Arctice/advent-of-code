@@ -33,7 +33,7 @@
     (+ (* d k) p1)))
 
 (define primes (cddr (sieve 1000100)))
-(define solution
+(define (problem-134)
   (fold-left
    + 0
    (map (λ (p1 p2)
@@ -42,5 +42,5 @@
         (cdr primes))))
 
 
-(define answer 'f12b07460d2586ea47b4d305ae0b0539)
-(verify solution answer)
+(define answer-134 'f12b07460d2586ea47b4d305ae0b0539)
+

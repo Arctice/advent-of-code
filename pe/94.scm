@@ -21,7 +21,7 @@
 (define (square? x)
   (let-values ([[s r] (exact-integer-sqrt x)]) (zero? r)))
 
-(define solution
+(define (problem-94)
   (let next ([a 3] [count 0])
     (let ([int-area
            (or (integer-triangle a (+ a 1))
@@ -30,7 +30,7 @@
       (cond
        [(< 1000000000 perimeter) count]
        [int-area
-        (printf "~s-~s-~s: ~s\n" a a (+ 1 a) perimeter)
+        ;; (printf "~s-~s-~s: ~s\n" a a (+ 1 a) perimeter)
         (next
          (if (< 1000 a)
              (let ([next (inexact->exact (round (* a 3.73)))])
@@ -41,6 +41,4 @@
                (if (integer-triangle a (+ a 1)) 1 -1))))]
        [else (next (+ a 2) count)]))))
 
-(define answer '3218c6bb59f2539ec39ad4bf37c10913)
-(verify solution answer)
-
+(define answer-94 '3218c6bb59f2539ec39ad4bf37c10913)
