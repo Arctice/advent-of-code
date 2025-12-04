@@ -5,7 +5,7 @@
 (define (adjacent at)
   (map (λ (side) (vec2+ at side)) directions))
 
-(define rolls (make-hashtable equal-hash equal?))
+(define rolls (make-hashtable equal-hash vec2=?))
 (let ([lines (map string->list (readlines "4.input"))])
   (for-each (λ (row y)
               (for-each (λ (tile x)
@@ -25,4 +25,8 @@
     (for-each remove removable)
     (if (null? removable)
         (printf "part 2: ~s\n" removed)
-        (next (remaining) (+ removed (length removable))))))
+        (let ([frontier (filter roll? (apply append '() (map adjacent removable)))]
+              [queue (make-hashtable equal-hash vec2=?)])
+          (for-each (λ (p) (hashtable-set! queue p #t)) frontier)
+          (next (vector->list (hashtable-keys queue))
+                (+ removed (length removable)))))))

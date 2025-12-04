@@ -2,7 +2,7 @@
 
 (library (vec2)
   (export vec2 vec2? vec2-x vec2-y vec2+ vec2- vec2* vec2-div vec2=?
-          vec2-id vec2-hash)
+          vec2-id)
   (import (scheme))
 
   (define (vec2 a b) (fxvector a b))
@@ -21,20 +21,7 @@
                             (fx= (vec2-y a) (vec2-y b))))
 
   (define (vec2-id v)
-    (fx+ (fxsll (fx+ 32768 (vec2-x v)) 16) (vec2-y v)))
-
-  (define (vec2-hash seed v)
-    (let* ([m #x5bd1e995] [r 24]
-           [hash
-            (lambda (h x)
-              (let* ([k (bitwise-and (* x m) #xffffffff)]
-                     [k (bitwise-xor k (bitwise-arithmetic-shift-right k r))]
-                     [h (bitwise-xor (* h m) (* k m))])
-                (bitwise-and h #xffffffff)))]
-           [h (hash (hash seed (vec2-x v)) (vec2-y v))]
-           [h (bitwise-xor h (bitwise-arithmetic-shift-right h 13))]
-           [h (bitwise-and (* h m) #xffffffff)])
-      (bitwise-xor h (bitwise-arithmetic-shift-right h 15)))))
+    (fx+ (fxsll (fx+ 32768 (vec2-x v)) 16) (vec2-y v))))
 
 (library (vec2f)
   (export vec2f vec2f? vec2f-x vec2f-y vec2f+ vec2f-
